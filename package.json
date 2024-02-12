@@ -1,0 +1,22 @@
+{
+  "name": "backend",
+  "version": "1.0.0",
+  "description": "",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "prisma": {
+    "schema": "./Utils/Database/Prisma/schema.prisma"
+  },
+  "author": "",
+  "license": "ISC",
+  "devDependencies": {
+    "prisma": "^5.8.1"
+  },
+  "dependencies": {
+    "@prisma/client": "^5.8.1",
+    "node-html-parser": "^6.1.12"
+  }
+}
+

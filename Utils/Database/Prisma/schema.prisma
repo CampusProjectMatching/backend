@@ -1,0 +1,156 @@
+// This is your Prisma schema file,
+// learn more about it in the docs: https://pris.ly/d/prisma-schema
+
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "postgresql"
+  url      = env("DATABASE_URL")
+}
+
+model User {
+  id        Int    @id @default(autoincrement())
+  email     String @unique
+  mobile_no String @unique
+  password  String
+  name      String
+
+  role               String
+  projects           Project[]      @relation("ProjectUsers")
+  created_projects   Project[]      @relation("CreatedBy")
+  notifications_from Notification[] @relation("FromRelation")
+  notifications_to   Notification[] @relation("ToRelation")
+
+  github_url   String?
+  linkedin_url String?
+  designation  String?
+  department   String?
+  resume_url   String?
+
+  faculty_profile FacultyProfile?
+  student_profile StudentProfile?
+}
+
+model FacultyProfile {
+  id                 Int                @id @default(autoincrement())
+  user_id            Int                @unique
+  user               User               @relation(fields: [user_id], references: [id])
+  research_interests ResearchInterest[]
+  publications       Publication[]
+  google_scholar_url String?
+}
+
+model StudentProfile {
+  id                     Int                    @id @default(autoincrement())
+  user_id                Int                    @unique
+  user                   User                   @relation(fields: [user_id], references: [id])
+  professional_interests ProfessionalInterest[]
+  professional_skills    ProfessionalSkill[]
+  achievements           Achievement[]
+  work_experiences       WorkExperience[]
+  degree_name            String?
+  degree_start_date      DateTime?
+  degree_end_date        DateTime?
+  program                String?
+  roll_no                String?
+}
+
+model ResearchInterest {
+  id               Int              @id @default(autoincrement())
+  name             String
+  faculty_profiles FacultyProfile[]
+}
+
+model ProfessionalInterest {
+  id               Int              @id @default(autoincrement())
+  name             String
+  student_profiles StudentProfile[]
+}
+
+model ProfessionalSkill {
+  id               Int              @id @default(autoincrement())
+  name             String
+  student_profiles StudentProfile[]
+}
+
+model Tag {
+  id           Int           @id @default(autoincrement())
+  name         String
+  project      Project[]
+  publications Publication[]
+}
+
+model Achievement {
+  id              Int            @id @default(autoincrement())
+  title           String
+  description     String
+  link            String
+  date            DateTime
+  user_id         Int
+  student_profile StudentProfile @relation(fields: [user_id], references: [user_id])
+}
+
+model WorkExperience {
+  id               Int            @id @default(autoincrement())
+  company          String
+  designation      String
+  from_date        DateTime
+  to_date          DateTime
+  user_id          Int
+  student_profiles StudentProfile @relation(fields: [user_id], references: [user_id])
+}
+
+model Project {
+  id              Int             @id @default(autoincrement())
+  title           String
+  max_members     Int
+  start_date      DateTime        @default(now())
+  end_date        DateTime?
+  description     String
+  users           User[]          @relation("ProjectUsers")
+  creator_id      Int
+  demo_link       String?
+  timeline_events TimelineEvent[]
+  tags            Tag[]
+  notifications   Notification[]
+
+  creator User @relation("CreatedBy", fields: [creator_id], references: [id])
+}
+
+model Publication {
+  id       Int            @id @default(autoincrement())
+  title    String
+  abstract String
+  link     String
+  date     DateTime
+  user_id  Int
+  user     FacultyProfile @relation(fields: [user_id], references: [user_id])
+  tags     Tag[]
+}
+
+//Decouple from project, add generic content
+model Notification {
+  id       Int      @id @default(autoincrement())
+  date     DateTime @default(now())
+  accepted Boolean  @default(false)
+
+  project_id Int
+  project    Project @relation(fields: [project_id], references: [id])
+
+  from_id Int
+  from    User @relation("FromRelation", fields: [from_id], references: [id])
+
+  to_id Int
+  to    User @relation("ToRelation", fields: [to_id], references: [id])
+}
+
+model TimelineEvent {
+  id          Int      @id @default(autoincrement())
+  title       String
+  description String
+  date        DateTime
+  project_id  Int
+  project     Project  @relation(fields: [project_id], references: [id])
+}
