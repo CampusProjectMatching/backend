@@ -34,8 +34,7 @@ model User {
 }
 
 model FacultyProfile {
-  id                 Int                @id @default(autoincrement())
-  user_id            Int                @unique
+  user_id            Int                @unique @id
   user               User               @relation(fields: [user_id], references: [id])
   research_interests ResearchInterest[]
   publications       Publication[]
@@ -43,13 +42,12 @@ model FacultyProfile {
 }
 
 model StudentProfile {
-  id                     Int                    @id @default(autoincrement())
-  user_id                Int                    @unique
+  user_id                Int                    @unique @id
   user                   User                   @relation(fields: [user_id], references: [id])
   professional_interests ProfessionalInterest[]
   professional_skills    ProfessionalSkill[]
   achievements           Achievement[]
-  work_experiences       WorkExperience[]
+  work_experiences      WorkExperience[]
   degree_name            String?
   degree_start_date      DateTime?
   degree_end_date        DateTime?
@@ -78,7 +76,7 @@ model ProfessionalSkill {
 model Tag {
   id           Int           @id @default(autoincrement())
   name         String
-  project      Project[]
+  projects      Project[]
   publications Publication[]
 }
 
@@ -96,10 +94,10 @@ model WorkExperience {
   id               Int            @id @default(autoincrement())
   company          String
   designation      String
-  from_date        DateTime
-  to_date          DateTime
+  start_date        DateTime
+  end_date          DateTime?
   user_id          Int
-  student_profiles StudentProfile @relation(fields: [user_id], references: [user_id])
+  student_profile StudentProfile @relation(fields: [user_id], references: [user_id])
 }
 
 model Project {
@@ -126,7 +124,7 @@ model Publication {
   link     String
   date     DateTime
   user_id  Int
-  user     FacultyProfile @relation(fields: [user_id], references: [user_id])
+  faculty_profile     FacultyProfile @relation(fields: [user_id], references: [user_id])
   tags     Tag[]
 }
 
