@@ -273,15 +273,15 @@ async function addTagsToPublication(publicationId, tagIds) {
     }
 }
 
-async function createTimeLineEvent(timeLineEvent, projectId){
-    await prismaConnection.timeLineEvent.create({
+async function createTimeLineEvent(timelineEvent){
+    await prismaConnection.timelineEvent.create({
         data:{
-            title: timeLineEvent.title,
-            description: timeLineEvent.description,
-            date: timeLineEvent.date,
+            title: timelineEvent.title,
+            description: timelineEvent.description,
+            date: timelineEvent.date,
             project:{
                 connect:{
-                    project_id: projectId
+                    id: timelineEvent.project_id
                 }
             }
         }

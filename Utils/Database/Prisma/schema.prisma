@@ -43,7 +43,7 @@ model FacultyProfile {
 
 model StudentProfile {
   user_id                Int                    @unique @id
-  user                   User                   @relation(fields: [user_id], references: [id])
+  user                   User                   @relation(fields: [user_id], references: [id],onUpdate: Cascade, onDelete: Cascade)
   professional_interests ProfessionalInterest[]
   professional_skills    ProfessionalSkill[]
   achievements           Achievement[]
@@ -87,7 +87,7 @@ model Achievement {
   link            String
   date            DateTime
   user_id         Int
-  student_profile StudentProfile @relation(fields: [user_id], references: [user_id])
+  student_profile StudentProfile @relation(fields: [user_id], references: [user_id],onUpdate: Cascade, onDelete: Cascade)
 }
 
 model WorkExperience {
@@ -97,7 +97,7 @@ model WorkExperience {
   start_date        DateTime
   end_date          DateTime?
   user_id          Int
-  student_profile StudentProfile @relation(fields: [user_id], references: [user_id])
+  student_profile StudentProfile @relation(fields: [user_id], references: [user_id],onUpdate: Cascade, onDelete: Cascade)
 }
 
 model Project {
@@ -114,7 +114,7 @@ model Project {
   tags            Tag[]
   notifications   Notification[]
 
-  creator User @relation("CreatedBy", fields: [creator_id], references: [id])
+  creator User @relation("CreatedBy", fields: [creator_id], references: [id],onUpdate: Cascade, onDelete: Cascade)
 }
 
 model Publication {
@@ -124,7 +124,7 @@ model Publication {
   link     String
   date     DateTime
   user_id  Int
-  faculty_profile     FacultyProfile @relation(fields: [user_id], references: [user_id])
+  faculty_profile     FacultyProfile @relation(fields: [user_id], references: [user_id],onUpdate: Cascade, onDelete: Cascade)
   tags     Tag[]
 }
 
@@ -150,5 +150,5 @@ model TimelineEvent {
   description String
   date        DateTime
   project_id  Int
-  project     Project  @relation(fields: [project_id], references: [id])
+  project     Project  @relation(fields: [project_id], references: [id],onUpdate: Cascade, onDelete: Cascade)
 }

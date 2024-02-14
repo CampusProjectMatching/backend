@@ -1,0 +1,2 @@
+npx prisma migrate dev --name init //for pushing schema changes to db
+npx prisma generate //To generate prisma client
