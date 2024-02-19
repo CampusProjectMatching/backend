@@ -45,7 +45,7 @@ async function queryStudentProfile(studentId, include = {}) {
 
 async function queryFacultyProfile(facultyId, include = {}) {
   const generalUser = constants.generalUserQuery;
-  const facultySpecific = constants.studentSpecificQuery;
+  const facultySpecific = constants.facultySpecificQuery;
 
   let generalUserDict = {};
 

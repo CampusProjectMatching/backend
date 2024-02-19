@@ -157,7 +157,7 @@ async function deleteResearchInterestsFromFacultyProfile(facultyId, researchInte
     try {
         const deletedData = await prismaConnection.facultyProfile.update({
         where: {
-            id: facultyId,
+            user_id: facultyId,
         },
         data: {
             research_interests: {
@@ -179,7 +179,7 @@ async function deleteProfessionalSkillsFromStudentProfile(studentId, professiona
     try {
         const deletedData = await prismaConnection.studentProfile.update({
         where: {
-            id: studentId,
+            user_id: studentId,
         },
         data: {
             professional_skills: {
@@ -201,7 +201,7 @@ async function deleteProfessionalInterestsFromStudentProfile(studentId, professi
     try {
         const deletedData = await prismaConnection.studentProfile.update({
         where: {
-            id: studentId,
+            user_id: studentId,
         },
         data: {
             professional_interests: {
@@ -243,6 +243,8 @@ module.exports = {
     deleteUserProfile,
     deleteProject,
     deleteAchievement,
+    deleteWorkExperience,
+    deletePublicaion,
     deleteTagsFromProject,
     deleteTagsFromPublication,
     deleteResearchInterestsFromFacultyProfile,

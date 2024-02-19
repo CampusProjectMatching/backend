@@ -190,10 +190,11 @@ async function addProfessionalSkillsToStudentProfile(studentId, professionalSkil
 
 
 async function createProject(project){
-    await prismaConnection.project.create({
+    const data = await prismaConnection.project.create({
         data:{
             title: project.title,
             description: project.description,
+            start_date: project.start_date,
             end_date: project.end_date,
             max_members: project.max_members,
             creator:{
@@ -203,6 +204,7 @@ async function createProject(project){
             }
         }
     })
+    return data;
 }
 
 async function addUserToProject(user_id, project_id){
@@ -236,7 +238,7 @@ async function addTagsToProject(projectId, tagIds) {
         const existingTagIds = project.tags ? project.tags.map(tag => tag.id) : [];
         const newTagIds = tagIds.filter(tagId => !existingTagIds.includes(tagId));
 
-        await prismaConnection.project.update({
+        const updated = await prismaConnection.project.update({
             where: { id: projectId },
             data: {
                 tags: {
@@ -244,6 +246,7 @@ async function addTagsToProject(projectId, tagIds) {
                 },
             },
         });
+        return updated;
     } catch (error) {
         console.error(`Error adding tags to project: ${error.message}`);
     }
@@ -260,7 +263,7 @@ async function addTagsToPublication(publicationId, tagIds) {
         const existingTagIds = publication.tags ? publication.tags.map(tag => tag.id) : [];
         const newTagIds = tagIds.filter(tagId => !existingTagIds.includes(tagId));
 
-        await prismaConnection.publication.update({
+        const updated = await prismaConnection.publication.update({
             where: { id: publicationId },
             data: {
                 tags: {
@@ -268,6 +271,7 @@ async function addTagsToPublication(publicationId, tagIds) {
                 },
             },
         });
+        return updated;
     } catch (error) {
         console.error(`Error adding tags to publication: ${error.message}`);
     }
