@@ -12,10 +12,10 @@ datasource db {
 
 model User {
   id        Int    @id @default(autoincrement())
-  email     String @unique
-  mobile_no String @unique
+  email     String? @unique
+  mobile_no String? @unique
   password  String
-  name      String
+  name      String?
 
   role               String
   projects           Project[]      @relation("ProjectUsers")
@@ -52,7 +52,7 @@ model StudentProfile {
   degree_start_date      DateTime?
   degree_end_date        DateTime?
   program                String?
-  roll_no                String?
+  roll_no                String? @unique
 }
 
 model ResearchInterest {
@@ -138,10 +138,10 @@ model Notification {
   project    Project @relation(fields: [project_id], references: [id])
 
   from_id Int
-  from    User @relation("FromRelation", fields: [from_id], references: [id])
+  from_user    User @relation("FromRelation", fields: [from_id], references: [id])
 
   to_id Int
-  to    User @relation("ToRelation", fields: [to_id], references: [id])
+  to_user    User @relation("ToRelation", fields: [to_id], references: [id])
 }
 
 model TimelineEvent {
@@ -151,4 +151,11 @@ model TimelineEvent {
   date        DateTime
   project_id  Int
   project     Project  @relation(fields: [project_id], references: [id],onUpdate: Cascade, onDelete: Cascade)
+}
+
+model Otp {
+  id        Int      @id @default(autoincrement())
+  email     String
+  otp       String
+  createdAt DateTime @default(now())
 }

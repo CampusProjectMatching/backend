@@ -3,6 +3,40 @@ const constants = require("./constants");
 
 const prismaConnection = prismaClient();
 
+async function fetchStudentProfileByRollNo(rollNo) {
+  try {
+    const data = await prismaConnection.studentProfile.findMany({
+      where: {
+        roll_no: rollNo,
+      },
+    });
+    if (data.length === 0) {
+      return null;
+    }
+
+    return data[0];
+  } catch (e) {
+    console.error("Error in fetchStudentProfileByRollNo: ", e);
+  }
+}
+
+async function queryAllStudents(){
+    try {
+        const data = await prismaConnection.user.findMany({
+          where: {
+            role: "Student",
+          },
+          include: {
+            student_profile: true,
+          },
+        });
+        return data;
+      } catch (e) {
+        console.error("Error in queryAllStudents: ", e);
+      }
+
+}
+
 async function queryStudentProfile(studentId, include = {}) {
   const generalUser = constants.generalUserQuery;
   const studentSpecific = constants.studentSpecificQuery
@@ -125,4 +159,6 @@ module.exports = {
   queryStudentProfile,
   queryFacultyProfile,
   queryProject,
+  fetchStudentProfileByRollNo,
+  queryAllStudents,
 };

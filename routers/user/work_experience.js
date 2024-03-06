@@ -6,7 +6,7 @@ const router = express.Router();
 const prismaClient = require('../../Utils/Database/prisma-client');
 const prismaConnection = prismaClient();
 
-const { isStudent } = require('../../Utils/auth/authenticate');
+const { isStudent } = require('../../Utils/Auth/authenticate');
 const { createWorkExperience } = require('../../Utils/Database/create');
 const { queryStudentProfile } = require('../../Utils/Database/query');
 const { deleteWorkExperience } = require('../../Utils/Database/delete'); 

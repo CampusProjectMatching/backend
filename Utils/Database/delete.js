@@ -16,6 +16,19 @@ async function deleteUserProfile(userId) {
     }
 }
 
+async function deleteStudentProfileByRollNo(rollNo) {
+    try {
+        const deletedData = await prismaConnection.studentProfile.delete({
+        where: {
+            roll_no: rollNo,
+        },
+        });
+        return deletedData;
+    } catch (e) {
+        console.error("Error in deleteStudentProfileByRollNo: ", e);
+    }
+}
+
 async function deleteProject(projectId) {
     try {
         const deletedData = await prismaConnection.project.delete({

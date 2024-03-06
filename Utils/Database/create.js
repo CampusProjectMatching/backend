@@ -15,11 +15,20 @@ async function createStudentProfile(studentProfile){
                         degree_name: studentProfile.degree_name,
                         degree_start_date: studentProfile.degree_start_date,
                         degree_end_date: studentProfile.degree_end_date,
+                        roll_no: studentProfile.roll_no,
+                        program: studentProfile.program,
+                        degree_name: studentProfile.degree_name,
                     }
                 }
             }
         }
     )
+
+    studentProfile = await prismaConnection.studentProfile.findUnique({
+        where: { roll_no: studentProfile.roll_no },
+    });
+
+    return studentProfile;
 }
 
 async function createFacultyProfile(facultyProfile){
@@ -197,6 +206,7 @@ async function createProject(project){
             start_date: project.start_date,
             end_date: project.end_date,
             max_members: project.max_members,
+            demo_link: project.demo_link,
             creator:{
                 connect:{
                     id: project.creator_id

@@ -35,7 +35,15 @@ const { updateStudentProfile, updateFacultyProfile } = require('../Utils/Databas
  */
 router.get("/", async (req, res) => {
     if (req.user.role == 'Student') {
-        const profile = await queryStudentProfile(req.user.id)
+        const profile = await queryStudentProfile(req.user.id,include={
+            "professional_skills":true,
+            "professional_interests":true,
+            "achievements":true,
+            "work_experiences":true,
+            "projects":true,
+            "created_projects":true,
+
+        })
         delete profile.password;
         res.json(profile);
     } else if (req.user.role == 'Faculty') {

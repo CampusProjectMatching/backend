@@ -102,7 +102,7 @@ router.post("/", async (req, res) => {
     try{
         const data = await createProject({ ...req.body, creator_id: req.user.id })
         await addUserToProject(req.user.id, data.id)
-        res.json({ message: "Project created", note: "you are added to project" })
+        res.status(200).json({ message: "Project created", note: "you are added to project" })
     }
     catch (error) {
         console.log("Error creating project:", error);

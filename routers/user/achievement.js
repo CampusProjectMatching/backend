@@ -2,7 +2,7 @@ const express = require('express');
 
 const router = express.Router();
 
-const { isStudent } = require('../../Utils/auth/authenticate');
+const { isStudent } = require('../../Utils/Auth/authenticate');
 const { createAchievement } = require('../../Utils/Database/create');
 const { queryStudentProfile } = require('../../Utils/Database/query');
 const { deleteAchievement } = require('../../Utils/Database/delete');
@@ -68,6 +68,7 @@ router.get("/", async (req, res) => {
 router.post("/", async (req, res) => {
     try {
         const achievements = req.body;
+        console.log(achievements)
         const createPromises = achievements.map(async (achievement) => {
             await createAchievement({ ...achievement, user_id: req.user.id });
         });
