@@ -1,10 +1,10 @@
-require('dotenv').config();
-
+dotenv=require('dotenv').config({path: ['.env']});
 const express = require('express');
 const app = express();
-const port = process.env.PORT || 3000;
 
+var port = process.env.PORT || 8000;
 const { authenticator } = require('./Utils/auth/authenticate.js');
+
 app.use(express.json())
 
 app.use("/auth", require("./routers/auth.js"))

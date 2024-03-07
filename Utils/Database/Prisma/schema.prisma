@@ -16,6 +16,7 @@ model User {
   mobile_no String @unique
   password  String
   name      String
+  is_authenticated Boolean @default(false)
 
   role               String
   projects           Project[]      @relation("ProjectUsers")
