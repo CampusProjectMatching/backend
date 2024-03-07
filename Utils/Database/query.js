@@ -3,6 +3,23 @@ const constants = require("./constants");
 
 const prismaConnection = prismaClient();
 
+async function fetchOtp(email) {
+  try {
+    const data = await prismaConnection.otp.findMany({
+      where: {
+        email: email,
+      },
+    });
+    if (data.length === 0) {
+      return null;
+    }
+    return data[0];
+  } catch (e) {
+    console.error("Error in fetchOtp: ", e);
+    return null;
+  }
+}
+
 async function fetchStudentProfileByRollNo(rollNo) {
   try {
     const data = await prismaConnection.studentProfile.findMany({
@@ -161,4 +178,5 @@ module.exports = {
   queryProject,
   fetchStudentProfileByRollNo,
   queryAllStudents,
+  fetchOtp
 };

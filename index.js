@@ -45,7 +45,7 @@ app.use("/project", authenticator, require("./routers/project/tag.js"))
 app.use("/project", authenticator, require("./routers/project/timeline.js"))
 
 
-app.get("/students", authenticator,async (req, res) => {
+app.get("/students", async (req, res) => {
     const students = await queryAllStudents();
     res.json(students);
 })

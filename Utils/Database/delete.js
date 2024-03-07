@@ -16,6 +16,21 @@ async function deleteUserProfile(userId) {
     }
 }
 
+
+async function deleteOtp(email){
+    try {
+        const deletedData = await prismaConnection.otp.delete({
+        where: {
+            email: email,
+        },
+        });
+        return deletedData;
+    } catch (e) {
+        console.error("Error in deleteOtp: ", e);
+    }
+
+}
+
 async function deleteStudentProfileByRollNo(rollNo) {
     try {
         const deletedData = await prismaConnection.studentProfile.delete({
@@ -265,4 +280,5 @@ module.exports = {
     deleteProfessionalInterestsFromStudentProfile,
     deleteUserFromProject,
     deleteTimelineEvent,
+    deleteOtp,
 }

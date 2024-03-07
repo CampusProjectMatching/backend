@@ -49,6 +49,15 @@ async function createFacultyProfile(facultyProfile){
     )
 }
 
+async function createOtp(email,otp){
+    //check if exists, overwrite if true
+    await prismaConnection.otp.upsert({
+        where: { email: email },
+        update: { otp: otp,created_at: new Date()},
+        create: { email: email, otp: otp },
+    });
+}
+
 
 async function createResearchInterest(researchInterest){
     await prismaConnection.researchInterest.create({
@@ -331,6 +340,7 @@ module.exports =  {
     addTagsToPublication,
     createTimeLineEvent,
     createNotification,
-    addUserToProject
+    addUserToProject,
+    createOtp
 }
 
